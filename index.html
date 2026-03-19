@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>হরিতকী বৈশাখী শাড়ি ক্যাটালগ</title>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js/turn.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+
+        :root { --gold: #d4af37; --bg: #000; }
+        body { 
+            background: var(--bg); margin: 0; padding: 0; height: 100vh; overflow: hidden; 
+            font-family: 'Hind Siliguri', sans-serif; 
+            user-select: none; -webkit-user-select: none;
+            touch-action: none; 
+        }
+
+        /* Protection Styles */
+        img { 
+            -webkit-touch-callout: none; /* iOS-এ ছবি সেভ অপশন বন্ধ */
+            -webkit-user-drag: none;
+            user-drag: none;
+            pointer-events: none; /* সরাসরি ছবির ওপর ক্লিক হবে না */
+        }
+
+        .brand-header { margin-top: 10px; color: var(--gold); font-size: 1.3rem; font-weight: 700; text-align: center; z-index: 100; position: relative; }
+
+        #viewport { width: 100vw; height: 82vh; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
+        #flipbook { width: 100vw; height: 78vh; visibility: hidden; }
+
+        .page { background-color: #000; position: relative; overflow: hidden; }
+        
+        .img-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        
+        /* Ghost Protection Overlay */
+        .protection-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 20; background: rgba(0,0,0,0); /* একদম স্বচ্ছ কিন্তু এটিই ছবিকে গার্ড দিবে */
+        }
+
+        .page img { 
+            width: 100%; height: 100%; object-fit: contain; 
+            transition: transform 0.3s ease-out;
+            transform-origin: center center;
+            position: relative;
+        }
+
+        /* Controls */
+        .nav-btn, .zoom-btn {
+            position: fixed; top: 48%; transform: translateY(-50%);
+            width: 46px; height: 46px; background: rgba(255, 255, 255, 0.1);
+            color: var(--gold); border: 1.5px solid var(--gold);
+            border-radius: 50%; cursor: pointer; z-index: 1000;
+            display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);
+        }
+        .prev-btn { left: 10px; }
+        .next-btn { right: 10px; }
+        .zoom-btn { top: auto; bottom: 85px; right: 20px; width: 55px; height: 55px; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
+        .zoom-active { background: var(--gold); color: #000; scale: 1.1; }
+
+        .order-overlay { position: absolute; bottom: 15px; width: 100%; display: flex; justify-content: center; gap: 8px; z-index: 50; }
+        .btn { width: 42%; padding: 12px 0; border-radius: 8px; text-decoration: none; font-size: 11px; font-weight: bold; text-align: center; color: white; border: none; }
+        .wa { background: #25D366; } .ms { background: #0084FF; }
+
+        .footer-fixed { position: fixed; bottom: 0; width: 100%; background: #000; z-index: 200; border-top: 1px solid rgba(212, 175, 55, 0.2); }
+        .nano-counter { font-size: 10px; color: #888; text-align: center; padding: 4px 0; }
+        .marquee-container { width: 100%; background: rgba(212, 175, 55, 0.05); color: var(--gold); padding: 10px 0; font-size: 13px; overflow: hidden; }
+        .marquee-text { display: inline-block; white-space: nowrap; animation: marquee 20s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+
+        #loader { color: var(--gold); position: absolute; top: 50%; width: 100%; text-align: center; z-index: 2000; }
+    </style>
+</head>
+<body oncontextmenu="return false;"> <div class="brand-header">হরিতকী বৈশাখী শাড়ি ক্যাটালগ</div>
+    <div id="loader">নিরাপদ ক্যাটালগ লোড হচ্ছে...</div>
+
+    <div id="viewport">
+        <button class="nav-btn prev-btn" id="prev"><i data-lucide="chevron-left"></i></button>
+        <div id="flipbook"></div>
+        <button class="nav-btn next-btn" id="next"><i data-lucide="chevron-right"></i></button>
+        <button class="zoom-btn" id="zoomBtn"><i data-lucide="zoom-in"></i></button>
+    </div>
+
+    <div class="footer-fixed">
+        <div id="nanoCounter" class="nano-counter">LOADING...</div>
+        <div class="marquee-container">
+            <div class="marquee-text">
+                শাড়ি ম্যাটেরিয়াল: আর্ট সিল্ক (Art Silk) খুব আরামদায়ক হবে । • সম্পূর্ণ ১২ হাত শাড়ি • প্রিমিয়াম বৈশাখী কালেকশন • সারাদেশে ক্যাশ অন ডেলিভারি...
+            </div>
+        </div>
+    </div>
+
+    <audio id="flipSound" src="sound.mp3" preload="auto"></audio>
+
+    <script>
+        const totalImages = 140; 
+        const imgPath = "images/";
+        const flipbook = $('#flipbook');
+        const sound = document.getElementById('flipSound');
+        const counter = document.getElementById('nanoCounter');
+        
+        let isZoomed = false;
+        let isDragging = false;
+        let startX, startY, translateX = 0, translateY = 0;
+
+        for (let i = 1; i <= totalImages; i++) {
+            flipbook.append(`
+                <div class="page">
+                    <div class="img-container">
+                        <img src="${imgPath}${i}.webp" 
+                             onerror="this.onerror=null; this.src='${imgPath}${i}.png';" 
+                             alt="Saree ${i}">
+                        <div class="protection-overlay"></div> </div>
+                    <div class="order-overlay">
+                        <a href="https://wa.me/8801309007585?text=Saree No: ${i}" class="btn wa">WhatsApp</a>
+                        <a href="https://m.me/horitokibd?text=Saree No: ${i}" class="btn ms">Messenger</a>
+                    </div>
+                </div>
+            `);
+        }
+
+        $(window).ready(function() {
+            lucide.createIcons();
+            $('#loader').fadeOut();
+            
+            flipbook.css('visibility', 'visible').turn({
+                width: $(window).width(),
+                height: $(window).height() * 0.78,
+                display: 'single',
+                acceleration: true,
+                elevation: 100,
+                when: {
+                    turning: () => { if(!isZoomed) { sound.currentTime=0; sound.play().catch(()=>{}); } },
+                    turned: (e, page) => { counter.innerText = `শাড়ি নম্বর: ${page} / মোট: ${totalImages}`; }
+                }
+            });
+            counter.innerText = `শাড়ি নম্বর: 1 / মোট: ${totalImages}`;
+        });
+
+        $('#prev').click(() => { if(!isZoomed) flipbook.turn('previous'); });
+        $('#next').click(() => { if(!isZoomed) flipbook.turn('next'); });
+
+        $('#zoomBtn').click(function() {
+            isZoomed = !isZoomed;
+            if(isZoomed) {
+                $(this).addClass('zoom-active').html('<i data-lucide="zoom-out"></i>');
+                $('.page img').css('transform', 'scale(2.5)');
+                flipbook.turn("disable", true);
+            } else {
+                $(this).removeClass('zoom-active').html('<i data-lucide="zoom-in"></i>');
+                $('.page img').css({'transform': 'scale(1) translate(0px, 0px)', 'transition': '0.3s'});
+                translateX = 0; translateY = 0;
+                flipbook.turn("disable", false);
+            }
+            lucide.createIcons();
+        });
+
+        // প্যানিং (Panning) সাপোর্ট
+        document.addEventListener('touchstart', (e) => {
+            if (!isZoomed) return;
+            isDragging = true;
+            startX = e.touches[0].clientX - translateX;
+            startY = e.touches[0].clientY - translateY;
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!isZoomed || !isDragging) return;
+            translateX = e.touches[0].clientX - startX;
+            translateY = e.touches[0].clientY - startY;
+            $('.page img').css({
+                'transform': `scale(2.5) translate(${translateX/2.5}px, ${translateY/2.5}px)`,
+                'transition': 'none'
+            });
+        });
+
+        document.addEventListener('touchend', () => { isDragging = false; });
+        $(window).resize(() => flipbook.turn('size', $(window).width(), $(window).height() * 0.78));
+    </script>
+</body>
+</html>
