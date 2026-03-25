@@ -3,194 +3,230 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>হরিতকী বৈশাখী শাড়ি ক্যাটালগ</title>
-    <meta name="description" content="হরিতকী প্রিমিয়াম বৈশাখী শাড়ি কালেকশন ২০২৬। এক্সক্লুসিভ ডিজাইন ও ঐতিহ্যবাহী মোটিফ।">
+    <title>হরিতকী বৈশাখী ক্যাটালগ ২০২৬</title>
+    
+    <meta property="og:title" content="হরিতকী বৈশাখী সংগ্রহ">
+    <meta property="og:description" content="যেকোনো শাড়ি মাত্র ১৫০০ টাকা!">
+    <meta property="og:image" content="ss.webp"> 
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
 
-    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
-
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://horitoki.com">
-    <meta property="og:title" content="হরিতকী বৈশাখী শাড়ি ক্যাটালগ">
-    <meta property="og:description" content="আমাদের এক্সক্লুসিভ ২০২৬ বৈশাখী কালেকশন দেখে নিন ইন্টারঅ্যাক্টিভ থ্রি-ডি ফ্লিপবুক-এ।">
-    <meta property="og:image" content="images/ss.webp">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta property="twitter:image" content="/images/ss.webp">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js/turn.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
+        :root { --gold: #d4af37; --bg: #000; --card: #121212; --green: #25D366; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg); margin: 0; font-family: 'Hind Siliguri', sans-serif; color: #fff; overflow: hidden; touch-action: none; }
 
-        :root { --gold: #d4af37; --bg: #000; }
-        body { 
-            background: var(--bg); margin: 0; padding: 0; height: 100vh; overflow: hidden; 
-            font-family: 'Hind Siliguri', sans-serif; 
-            user-select: none; -webkit-user-select: none;
-            touch-action: none; 
-        }
+        header { background: rgba(18, 18, 18, 0.95); padding: 12px 0; border-bottom: 1px solid #222; text-align: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); }
+        .main-title { color: var(--gold); font-size: 1.1rem; margin: 0; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; }
+        .stats { font-size: 10px; color: #777; margin-top: 2px; }
 
-        /* Protection Styles */
-        img { 
-            -webkit-touch-callout: none; /* iOS-এ ছবি সেভ অপশন বন্ধ */
-            -webkit-user-drag: none;
-            user-drag: none;
-            pointer-events: none; /* সরাসরি ছবির ওপর ক্লিক হবে না */
-        }
+        /* Navigation Arrows */
+        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(0,0,0,0.6); border: 1px solid var(--gold); border-radius: 50%; color: var(--gold); z-index: 2000; display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s; }
+        .nav-btn:active { background: var(--gold); color: #000; transform: translateY(-50%) scale(0.9); }
+        .prev-btn { left: 10px; } .next-btn { right: 10px; }
 
-        .brand-header { margin-top: 10px; color: var(--gold); font-size: 1.3rem; font-weight: 700; text-align: center; z-index: 100; position: relative; }
-
-        #viewport { width: 100vw; height: 82vh; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; }
-        #flipbook { width: 100vw; height: 78vh; visibility: hidden; }
-
-        .page { background-color: #000; position: relative; overflow: hidden; }
+        /* Viewport & Flipbook */
+        #viewport { width: 100vw; height: calc(100vh - 160px); display: flex; align-items: center; justify-content: center; position: relative; padding: 10px; }
+        #flipbook { width: 100%; height: 100%; visibility: hidden; }
         
-        .img-container { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
+        .page { background: #000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+
+        /* Book Frame & Border */
+        .product-card { 
+            width: 95%; 
+            height: 85%; 
+            background: #080808; 
+            border-radius: 4px; 
+            position: relative; 
+            /* Realistic Book Border */
+            border: 6px solid #1a1a1a;
+            border-left: 12px solid #222; /* Spine effect */
+            box-shadow: 10px 10px 25px rgba(0,0,0,0.7), inset 0 0 50px rgba(0,0,0,0.5);
+            overflow: hidden; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+        }
         
-        /* Ghost Protection Overlay */
-        .protection-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 20; background: rgba(0,0,0,0); /* একদম স্বচ্ছ কিন্তু এটিই ছবিকে গার্ড দিবে */
+        /* Product Image - Full Screen Focus */
+        .product-card img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: cover; /* Mobile এ ফুল স্ক্রিন লুক দেওয়ার জন্য */
+            cursor: zoom-in;
         }
 
-        .page img { 
-            width: 100%; height: 100%; object-fit: contain; 
-            transition: transform 0.3s ease-out;
-            transform-origin: center center;
-            position: relative;
-        }
+        .badge { position: absolute; top: 15px; right: 15px; background: var(--gold); color: #000; padding: 3px 12px; border-radius: 4px; font-weight: bold; font-size: 12px; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.5); }
+        
+        /* Zoom Icon */
+        .zoom-icon { position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); color: #fff; padding: 8px; border-radius: 50%; z-index: 10; border: 1px solid rgba(255,255,255,0.2); }
 
-        /* Controls */
-        .nav-btn, .zoom-btn {
-            position: fixed; top: 48%; transform: translateY(-50%);
-            width: 46px; height: 46px; background: rgba(255, 255, 255, 0.1);
-            color: var(--gold); border: 1.5px solid var(--gold);
-            border-radius: 50%; cursor: pointer; z-index: 1000;
-            display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px);
-        }
-        .prev-btn { left: 10px; }
-        .next-btn { right: 10px; }
-        .zoom-btn { top: auto; bottom: 85px; right: 20px; width: 55px; height: 55px; box-shadow: 0 0 15px rgba(212,175,55,0.3); }
-        .zoom-active { background: var(--gold); color: #000; scale: 1.1; }
+        .actions { display: flex; gap: 10px; width: 95%; margin-top: 15px; }
+        .btn { flex: 1; padding: 14px; border-radius: 10px; font-weight: 600; font-size: 14px; display: flex; align-items: center; justify-content: center; gap: 8px; border: none; cursor: pointer; color: #fff; }
+        .btn-details { background: #1a1a1a; border: 1px solid #333; }
+        .btn-order { background: var(--green); }
 
-        .order-overlay { position: absolute; bottom: 15px; width: 100%; display: flex; justify-content: center; gap: 8px; z-index: 50; }
-        .btn { width: 42%; padding: 12px 0; border-radius: 8px; text-decoration: none; font-size: 11px; font-weight: bold; text-align: center; color: white; border: none; }
-        .wa { background: #25D366; } .ms { background: #0084FF; }
+        /* Drawer System */
+        .drawer { position: fixed; bottom: -100%; left: 0; width: 100%; background: var(--card); z-index: 4000; border-top: 3px solid var(--gold); border-radius: 25px 25px 0 0; padding: 25px 20px; transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        .drawer.active { bottom: 0; }
+        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 3500; display: none; backdrop-filter: blur(8px); }
+        
+        .input-group input, .input-group textarea { width: 100%; padding: 14px; margin: 8px 0; background: #181818; border: 1px solid #222; color: #fff; border-radius: 12px; font-size: 15px; outline: none; transition: 0.3s; }
+        .input-group input:focus { border-color: var(--gold); }
+        .confirm-btn { background: var(--gold); color: #000; width: 100%; padding: 16px; border: none; font-weight: bold; border-radius: 12px; margin-top: 10px; font-size: 16px; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3); }
 
-        .footer-fixed { position: fixed; bottom: 0; width: 100%; background: #000; z-index: 200; border-top: 1px solid rgba(212, 175, 55, 0.2); }
-        .nano-counter { font-size: 10px; color: #888; text-align: center; padding: 4px 0; }
-        .marquee-container { width: 100%; background: rgba(212, 175, 55, 0.05); color: var(--gold); padding: 10px 0; font-size: 13px; overflow: hidden; }
-        .marquee-text { display: inline-block; white-space: nowrap; animation: marquee 20s linear infinite; }
-        @keyframes marquee { 0% { transform: translateX(100vw); } 100% { transform: translateX(-100%); } }
+        footer { position: fixed; bottom: 0; width: 100%; background: #0a0a0a; padding: 12px 0; border-top: 1px solid #222; z-index: 1000; }
+        .marquee { display: inline-block; white-space: nowrap; animation: move 25s linear infinite; color: var(--gold); font-size: 13px; font-weight: 500; }
+        @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
-        #loader { color: var(--gold); position: absolute; top: 50%; width: 100%; text-align: center; z-index: 2000; }
+        #loader { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #111; border-top-color: var(--gold); border-radius: 50%; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
-<body oncontextmenu="return false;"> <div class="brand-header">হরিতকী বৈশাখী শাড়ি ক্যাটালগ</div>
-    <div id="loader">নিরাপদ ক্যাটালগ লোড হচ্ছে...</div>
-
-    <div id="viewport">
-        <button class="nav-btn prev-btn" id="prev"><i data-lucide="chevron-left"></i></button>
-        <div id="flipbook"></div>
-        <button class="nav-btn next-btn" id="next"><i data-lucide="chevron-right"></i></button>
-        <button class="zoom-btn" id="zoomBtn"><i data-lucide="zoom-in"></i></button>
-    </div>
-
-    <div class="footer-fixed">
-        <div id="nanoCounter" class="nano-counter">LOADING...</div>
-        <div class="marquee-container">
-            <div class="marquee-text">
-                শাড়ি ম্যাটেরিয়াল: আর্ট সিল্ক (Art Silk) খুব আরামদায়ক হবে । • সম্পূর্ণ ১২ হাত শাড়ি • প্রিমিয়াম বৈশাখী কালেকশন • সারাদেশে ক্যাশ অন ডেলিভারি...
-            </div>
-        </div>
-    </div>
+<body oncontextmenu="return false;">
 
     <audio id="flipSound" src="sound.mp3" preload="auto"></audio>
+    <div id="loader"><div class="spinner"></div><p style="color:var(--gold); font-size: 13px; margin-top: 15px; letter-spacing: 1px;">ক্যাটালগ সাজানো হচ্ছে...</p></div>
+
+    <header>
+        <h1 class="main-title">হরিতকী বৈশাখী সংগ্রহ</h1>
+        <div class="stats">পণ্য: <span id="pCount">১/১৪০</span></div>
+    </header>
+
+    <div id="viewport">
+        <div class="nav-btn prev-btn" onclick="nav('prev')"><i data-lucide="chevron-left"></i></div>
+        <div id="flipbook"></div>
+        <div class="nav-btn next-btn" onclick="nav('next')"><i data-lucide="chevron-right"></i></div>
+    </div>
+
+    <div class="drawer-overlay" onclick="closeDrawer()"></div>
+    <div class="drawer" id="mainDrawer">
+        <div id="detailsContent" style="display:none;">
+            <h2 style="color:var(--gold); margin:0;">পণ্যের বিবরণ</h2>
+            <p style="color:#bbb; line-height: 1.7; margin: 15px 0;">ম্যাটেরিয়াল - গ্লোসি আর্ট সিল্ক , খুব আরামদায়ক।<br>লম্বা: ১২ হাত।<br>১০০% কালার গ্যারান্টি <br> রানিং ব্লাউস পিস নেই<br>মূল্য: <b>১৫০০ টাকা</b> (ফিক্সড)।</p>
+            <button class="btn btn-order" style="width:100%;" onclick="switchDrawer('order')">অর্ডার ফর্ম খুলুন</button>
+        </div>
+        <div id="orderContent" style="display:none;">
+            <h3 style="color:var(--gold); margin:0;">অর্ডার নিশ্চিত করুন (শাড়ি নং: <span id="targetID">0</span>)</h3>
+            <p style="color:var(--gold); font-weight:bold; margin: 8px 0;">মূল্য: ১৫০০ BDT</p>
+            <div class="input-group">
+                <input type="text" id="custName" placeholder="আপনার নাম">
+                <input type="tel" id="custPhone" placeholder="মোবাইল নম্বর">
+                <textarea id="custAddr" rows="3" placeholder="পূর্ণ ঠিকানা..."></textarea>
+            </div>
+            <button class="confirm-btn" onclick="sendToWhatsApp()">WhatsApp-এ অর্ডার দিন</button>
+        </div>
+        <button onclick="closeDrawer()" style="background:none; border:none; color:#777; width:100%; margin-top:15px; font-size:13px; cursor: pointer;">ফিরে যান</button>
+    </div>
+
+    <footer><div class="marquee">🌙 হরিতকী ঈদ ও বৈশাখী অফার: যেকোনো শাড়ি মাত্র ১৫০০ টাকা! • সারাদেশে ক্যাশ অন ডেলিভারি সুবিধা • স্টক সীমিত! 🌙</div></footer>
 
     <script>
-        const totalImages = 140; 
-        const imgPath = "images/";
-        const flipbook = $('#flipbook');
-        const sound = document.getElementById('flipSound');
-        const counter = document.getElementById('nanoCounter');
-        
-        let isZoomed = false;
-        let isDragging = false;
-        let startX, startY, translateX = 0, translateY = 0;
+        const total = 140, path = "images/", wa = "8801309007585";
+        const site = "https://horitokidev.github.io/horitoki-catalogue"; 
 
-        for (let i = 1; i <= totalImages; i++) {
-            flipbook.append(`
-                <div class="page">
-                    <div class="img-container">
-                        <img src="${imgPath}${i}.webp" 
-                             onerror="this.onerror=null; this.src='${imgPath}${i}.png';" 
-                             alt="Saree ${i}">
-                        <div class="protection-overlay"></div> </div>
-                    <div class="order-overlay">
-                        <a href="https://wa.me/8801309007585?text=Saree No: ${i}" class="btn wa">WhatsApp</a>
-                        <a href="https://m.me/horitokibd?text=Saree No: ${i}" class="btn ms">Messenger</a>
-                    </div>
+        const fb = $('#flipbook'), snd = document.getElementById('flipSound');
+
+        // ১ থেকে ১৪০ পর্যন্ত সিরিয়াল নম্বর তৈরি ও শাফেল
+        let productIds = Array.from({length: total}, (_, i) => i + 1);
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[array[j]]] = [array[array[j]], array[i]];
+            }
+            return array;
+        }
+        shuffle(productIds);
+
+        // পেজ জেনারেট করা
+        productIds.forEach((id) => {
+            fb.append(`<div class="page">
+                <div class="product-card">
+                    <span class="badge">নং: ${id}</span>
+                    <img src="${path}${id}.webp" class="zoomable" loading="lazy" onerror="this.src='${path}${id}.png'">
+                    <div class="zoom-icon"><i data-lucide="zoom-in" size="18"></i></div>
                 </div>
-            `);
+                <div class="actions">
+                    <button class="btn btn-details" onclick="openDrawer('details', ${id})">বিস্তারিত</button>
+                    <button class="btn btn-order" onclick="openDrawer('order', ${id})"><i data-lucide="shopping-cart"></i> অর্ডার দিন</button>
+                </div>
+            </div>`);
+        });
+
+        function playSnd() { 
+            snd.pause();
+            snd.currentTime = 0; 
+            snd.play().catch(()=>{}); 
+        }
+        
+        function nav(d) { 
+            d === 'next' ? fb.turn('next') : fb.turn('previous'); 
         }
 
-        $(window).ready(function() {
-            lucide.createIcons();
-            $('#loader').fadeOut();
+        function openDrawer(m, id) {
+            $('#targetID').text(id);
+            $('.drawer-overlay').fadeIn(300);
+            $('#mainDrawer').addClass('active');
+            switchDrawer(m);
+        }
+
+        function switchDrawer(m) {
+            m === 'details' ? ($('#detailsContent').show(), $('#orderContent').hide()) : ($('#detailsContent').hide(), $('#orderContent').show());
+        }
+
+        function closeDrawer() { $('.drawer-overlay').fadeOut(300); $('#mainDrawer').removeClass('active'); }
+
+        function sendToWhatsApp() {
+            const id = $('#targetID').text(), 
+                  n = $('#custName').val().trim(), 
+                  p = $('#custPhone').val().trim(), 
+                  a = $('#custAddr').val().trim();
+                  
+            if(!n || !p || !a) { alert('অনুগ্রহ করে সব তথ্য দিন'); return; }
             
-            flipbook.css('visibility', 'visible').turn({
-                width: $(window).width(),
-                height: $(window).height() * 0.78,
+            const msg = `🌙 *নতুন অর্ডার (হরিতকী)*%0A%0A🆔 *শাড়ি নং:* ${id}%0A💰 *মূল্য:* ১৫০০ BDT%0A👤 *নাম:* ${n}%0A📞 *ফোন:* ${p}%0A🏠 *ঠিকানা:* ${a}%0A%0A🖼️ *পণ্যের ছবি:* ${site}/${path}${id}.webp`;
+            window.open(`https://wa.me/${wa}?text=${msg}`, '_blank');
+        }
+
+        $(window).on('load', function() {
+            lucide.createIcons();
+            
+            // Initialize Flipbook
+            fb.turn({
+                width: $(window).width() > 500 ? 400 : $(window).width() * 0.98,
+                height: $(window).height() - 160,
                 display: 'single',
+                duration: 800,
                 acceleration: true,
-                elevation: 100,
-                when: {
-                    turning: () => { if(!isZoomed) { sound.currentTime=0; sound.play().catch(()=>{}); } },
-                    turned: (e, page) => { counter.innerText = `শাড়ি নম্বর: ${page} / মোট: ${totalImages}`; }
+                elevation: 50,
+                when: { 
+                    turning: function() { playSnd(); },
+                    turned: function(e, p) { 
+                        $('#pCount').text(`${p}/${total}`);
+                    }
                 }
             });
-            counter.innerText = `শাড়ি নম্বর: 1 / মোট: ${totalImages}`;
-        });
 
-        $('#prev').click(() => { if(!isZoomed) flipbook.turn('previous'); });
-        $('#next').click(() => { if(!isZoomed) flipbook.turn('next'); });
-
-        $('#zoomBtn').click(function() {
-            isZoomed = !isZoomed;
-            if(isZoomed) {
-                $(this).addClass('zoom-active').html('<i data-lucide="zoom-out"></i>');
-                $('.page img').css('transform', 'scale(2.5)');
-                flipbook.turn("disable", true);
-            } else {
-                $(this).removeClass('zoom-active').html('<i data-lucide="zoom-in"></i>');
-                $('.page img').css({'transform': 'scale(1) translate(0px, 0px)', 'transition': '0.3s'});
-                translateX = 0; translateY = 0;
-                flipbook.turn("disable", false);
-            }
-            lucide.createIcons();
-        });
-
-        // প্যানিং (Panning) সাপোর্ট
-        document.addEventListener('touchstart', (e) => {
-            if (!isZoomed) return;
-            isDragging = true;
-            startX = e.touches[0].clientX - translateX;
-            startY = e.touches[0].clientY - translateY;
-        });
-
-        document.addEventListener('touchmove', (e) => {
-            if (!isZoomed || !isDragging) return;
-            translateX = e.touches[0].clientX - startX;
-            translateY = e.touches[0].clientY - startY;
-            $('.page img').css({
-                'transform': `scale(2.5) translate(${translateX/2.5}px, ${translateY/2.5}px)`,
-                'transition': 'none'
+            // Initialize Zoom
+            mediumZoom('.zoomable', {
+                background: 'rgba(0,0,0,0.9)',
+                margin: 10
             });
+
+            fb.css('visibility', 'visible');
+            $('#loader').fadeOut(800);
         });
 
-        document.addEventListener('touchend', () => { isDragging = false; });
-        $(window).resize(() => flipbook.turn('size', $(window).width(), $(window).height() * 0.78));
+        // Responsive Resize
+        $(window).on('resize', () => {
+            fb.turn('size', $(window).width() > 500 ? 400 : $(window).width() * 0.98, $(window).height() - 160);
+        });
     </script>
 </body>
 </html>
