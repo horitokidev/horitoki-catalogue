@@ -129,11 +129,10 @@
 
     <script>
         const total = 140, path = "images/", wa = "8801309007585";
-        const site = "https://horitokidev.github.io/horitoki-catalogue"; 
+        const site = "horitokidev.github.io/horitoki-catalogue"; 
 
         const fb = $('#flipbook'), snd = document.getElementById('flipSound');
 
-        // ১ থেকে ১৪০ পর্যন্ত সিরিয়াল নম্বর তৈরি ও শাফেল
         let productIds = Array.from({length: total}, (_, i) => i + 1);
         function shuffle(array) {
             for (let i = array.length - 1; i > 0; i--) {
@@ -183,21 +182,17 @@
         function closeDrawer() { $('.drawer-overlay').fadeOut(300); $('#mainDrawer').removeClass('active'); }
 
         function sendToWhatsApp() {
-            const id = $('#targetID').text(), 
-                  n = $('#custName').val().trim(), 
-                  p = $('#custPhone').val().trim(), 
-                  a = $('#custAddr').val().trim();
-                  
+            const id = $('#targetID').text(), n = $('#custName').val().trim(), p = $('#custPhone').val().trim(), a = $('#custAddr').val().trim();
             if(!n || !p || !a) { alert('অনুগ্রহ করে সব তথ্য দিন'); return; }
-            
             const msg = `🌙 *নতুন অর্ডার (হরিতকী)*%0A%0A🆔 *শাড়ি নং:* ${id}%0A💰 *মূল্য:* ১৫০০ BDT%0A👤 *নাম:* ${n}%0A📞 *ফোন:* ${p}%0A🏠 *ঠিকানা:* ${a}%0A%0A🖼️ *পণ্যের ছবি:* ${site}/${path}${id}.webp`;
             window.open(`https://wa.me/${wa}?text=${msg}`, '_blank');
         }
 
-        $(window).on('load', function() {
+        // দ্রুত লোডিং করার জন্য মেইন ফাংশন
+        $(document).ready(function() {
             lucide.createIcons();
             
-            // Initialize Flipbook
+            // ক্যাটালগ সেটআপ
             fb.turn({
                 width: $(window).width() > 500 ? 400 : $(window).width() * 0.98,
                 height: $(window).height() - 160,
@@ -207,23 +202,34 @@
                 elevation: 50,
                 when: { 
                     turning: function() { playSnd(); },
-                    turned: function(e, p) { 
-                        $('#pCount').text(`${p}/${total}`);
-                    }
+                    turned: function(e, p) { $('#pCount').text(`${p}/${total}`); }
                 }
             });
 
-            // Initialize Zoom
-            mediumZoom('.zoomable', {
-                background: 'rgba(0,0,0,0.9)',
-                margin: 10
+            mediumZoom('.zoomable', { background: 'rgba(0,0,0,0.9)', margin: 10 });
+
+            // স্মার্ট লোডার: প্রথম ৫টি ছবি চেক করা
+            let loadedCount = 0;
+            const initialImages = $('.page img').slice(0, 5); 
+
+            initialImages.on('load error', function() {
+                loadedCount++;
+                if (loadedCount >= initialImages.length) {
+                    startApp();
+                }
             });
 
-            fb.css('visibility', 'visible');
-            $('#loader').fadeOut(800);
+            // যদি খুব বেশি দেরি হয় (ফেইলসেফ - ২ সেকেন্ড পর এমনিতেই চালু হবে)
+            setTimeout(startApp, 2000);
+
+            function startApp() {
+                if($('#loader').is(':visible')) {
+                    fb.css('visibility', 'visible');
+                    $('#loader').fadeOut(400);
+                }
+            }
         });
 
-        // Responsive Resize
         $(window).on('resize', () => {
             fb.turn('size', $(window).width() > 500 ? 400 : $(window).width() * 0.98, $(window).height() - 160);
         });
