@@ -1,0 +1,41 @@
+name: Super Fast Image Optimizer
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'images/**.webp'
+  workflow_dispatch: # ম্যানুয়ালি রান করার অপশন
+
+permissions:
+  contents: write
+
+jobs:
+  optimize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Install ImageMagick & Parallel
+        run: sudo apt-get install -y imagemagick parallel
+
+      - name: Parallel Smart Compress
+        run: |
+          # images ফোল্ডারের সব .webp ফাইল খুঁজে বের করবে
+          # এরপর একসাথে অনেকগুলো ছবি (Parallel) প্রসেস করবে যাতে দ্রুত শেষ হয়
+          find images/ -name "*.webp" | parallel -j 4 '
+            size=$(du -k "{}" | cut -f1)
+            if [ $size -gt 150 ]; then
+              echo "Optimizing {} ($size KB)..."
+              # ছবিটিকে ১২০০ পিক্সেল চওড়া করবে এবং ১৫০ কিলোবাইটের টার্গেটে আনবে
+              convert "{}" -resize 1200x -define webp:extent=150kb "{}"
+            else
+              echo "Skipping {} ($size KB) - Already optimized."
+            fi
+          '
+
+      - name: Commit Optimized Images
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "Auto-optimize images: Resized to 1200px & Compressed to ~150kb"
