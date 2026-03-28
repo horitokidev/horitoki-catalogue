@@ -231,6 +231,22 @@
         $(window).on('resize', () => {
             fb.turn('size', $(window).width() > 500 ? 400 : $(window).width() * 0.96, $(window).height() - 150);
         });
+        $(document).ready(function() {
+    // ১. ইউআরএল থেকে আইডি চেক করা (যেমন: ?p=45)
+    const urlParams = new URLSearchParams(window.location.search);
+    const pId = urlParams.get('p');
+
+    if (pId) {
+        // একটু অপেক্ষা করে যাতে ফ্লিপবুক লোড হয়
+        setTimeout(() => {
+            // আপনার শাড়িগুলো যেহেতু Shuffle করা, তাই আইডি দিয়ে সঠিক পেজ নাম্বার বের করা
+            const targetPage = productIds.indexOf(parseInt(pId)) + 1;
+            if (targetPage > 0) {
+                $('#flipbook').turn('page', targetPage);
+            }
+        }, 1500); // ১.৫ সেকেন্ড ডিলে
+    }
+});
     </script>
 </body>
 </html>
