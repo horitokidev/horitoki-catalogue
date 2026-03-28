@@ -1,0 +1,24 @@
+name: Horitoki Saree Sitemap
+
+on:
+  push:
+    branches: [ main ]
+    paths: [ 'images/**' ]
+
+jobs:
+  sitemap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - name: Run Script
+        run: node generate-sitemap.js
+      - name: Commit
+        run: |
+          git config --global user.name "Sitemap Bot"
+          git config --global user.email "bot@github.com"
+          git add sitemap.xml
+          git commit -m "Auto updated sitemap" || echo "No changes"
+          git push
