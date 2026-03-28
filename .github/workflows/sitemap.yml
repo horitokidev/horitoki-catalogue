@@ -4,8 +4,8 @@ on:
   push:
     branches: [ main ]
     paths: [ 'images/**' ]
+  workflow_dispatch: # এটি থাকলে আপনি Actions ট্যাব থেকে ম্যানুয়ালি রান করতে পারবেন
 
-# এই লাইনগুলো যোগ করুন
 permissions:
   contents: write
 
@@ -13,21 +13,32 @@ jobs:
   sitemap:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # পুরো হিস্ট্রি নেওয়ার জন্য
+          fetch-depth: 0 # পুরো হিস্ট্রি নেওয়ার জন্য যাতে পুল-পুশে সমস্যা না হয়
 
-      - uses: actions/setup-node@v3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: 16
 
-      - name: Run Script
+      - name: Generate Sitemap
         run: node generate-sitemap.js
 
       - name: Commit and Push
         run: |
           git config --global user.name "Sitemap Bot"
           git config --global user.email "bot@github.com"
+          
+          # ফাইলটি অ্যাড করা
           git add sitemap.xml
-          git commit -m "Auto updated sitemap" || echo "No changes to commit"
+          
+          # যদি কোনো পরিবর্তন থাকে তবেই কমিট করা
+          git commit -m "Auto updated sitemap.xml" || echo "No changes to commit"
+          
+          # কনফ্লিক্ট এড়াতে আগে লেটেস্ট কোড পুল করে নেওয়া
+          git pull --rebase origin main
+          
+          # ফাইনাল পুশ
           git push origin main
