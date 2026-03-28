@@ -1,24 +1,33 @@
-name: Horitoki Saree Sitemap
+name: Auto Generate Sitemap
 
 on:
   push:
     branches: [ main ]
     paths: [ 'images/**' ]
 
+# এই লাইনগুলো যোগ করুন
+permissions:
+  contents: write
+
 jobs:
   sitemap:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # পুরো হিস্ট্রি নেওয়ার জন্য
+
       - uses: actions/setup-node@v3
         with:
           node-version: 16
+
       - name: Run Script
         run: node generate-sitemap.js
-      - name: Commit
+
+      - name: Commit and Push
         run: |
           git config --global user.name "Sitemap Bot"
           git config --global user.email "bot@github.com"
           git add sitemap.xml
-          git commit -m "Auto updated sitemap" || echo "No changes"
-          git push
+          git commit -m "Auto updated sitemap" || echo "No changes to commit"
+          git push origin main
