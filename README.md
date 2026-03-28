@@ -1,13 +1,13 @@
 # 🌟 Horitoki Saree Digital Catalogue
 
-[![Live Demo](https://img.shields.io/badge/demo-online-brightgreen.svg)](https://horitoki.netlify.app)
+[![Live Demo](https://img.shields.io/badge/demo-online-brightgreen.svg)](https://catalog.horitoki.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-An interactive, high-performance digital flipbook designed for the **Horitoki** premium saree collection. This catalogue provides a tactile "real-book" experience for customers to browse through Boishakhi saree designs with ease on any device.
+An interactive, high-performance digital flipbook designed for the **Horitoki** premium saree collection. This catalogue provides a tactile "real-book" experience for customers to browse through saree designs with ease on any device.
 
 <p align="center">
-  <img src="https://horitoki.netlify.app/images/1.webp" alt="Horitoki Saree 1" width="300px" style="border-radius: 10px; margin-right: 10px;">
-  <img src="https://horitoki.netlify.app/images/95.webp" alt="Horitoki Saree 2" width="300px" style="border-radius: 10px;">
+  <img src="/images/1.webp" alt="Horitoki Saree 1" width="300px" style="border-radius: 10px; margin-right: 10px;">
+  <img src="/images/95.webp" alt="Horitoki Saree 2" width="300px" style="border-radius: 10px;">
 </p>
 
 ## ✨ Key Features
@@ -32,10 +32,10 @@ An interactive, high-performance digital flipbook designed for the **Horitoki** 
 
 | Mobile Interface | Zoom & Pan Mode |
 | :---: | :---: |
-| <img src="https://horitoki.netlify.app/images/mobile.PNG" width="220px"> |<img src="https://horitoki.netlify.app/images/mobile2.PNG" width="220px">|
+| <img src="/images/mobile.PNG" width="220px"> |<img src="/images/mobile2.PNG" width="220px">|
 
 ## 🔗 Live Link
-Experience the catalogue here: **[horitoki.netlify.app](https://horitoki.netlify.app)**
+Experience the catalogue here: **[catalog.horitoki.com](https://catalog.horitoki.com)**
 Website Link **[horitoki.com](https://horitoki.com)**
 Website Link **[horitoki.com.bd](https://horitoki.com.bd)**
 
