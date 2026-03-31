@@ -115,7 +115,7 @@
         function handleOrder() {
             const id = $('#targetID').text(), n = $('#custName').val(), p = $('#custPhone').val(), a = $('#custAddr').val();
             if(!n || !p || !a) return alert('সব তথ্য দিন');
-            window.open(`https://wa.me/8801309007585?text=${encodeURIComponent('অর্ডার: কোড '+id+', নাম: '+n+', ফোন: '+p+', ঠিকানা: '+a' ইমেজ লিঙ্ক: ${siteDomain}/images/${id}.webp)}`);
+            window.open(`https://wa.me/8801309007585?text=${encodeURIComponent('অর্ডার: কোড '+id+', নাম: '+n+', ফোন: '+p+', ঠিকানা: '+a)}`);
         }
 
         // ৫. ডাইনামিক ইমেজ রেন্ডারিং (Lazy Ingestion)
