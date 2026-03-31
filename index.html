@@ -83,12 +83,16 @@
             <button class="btn btn-order" style="width:100%;" onclick="showOrder()">অর্ডার করতে এগিয়ে যান</button>
         </div>
         <div id="orderContent" style="display:none;">
-            <h3 style="color:var(--gold); margin:0;">অর্ডার (কোড: <span id="targetID">0</span>)</h3>
-            <input type="text" id="custName" placeholder="আপনার নাম">
-            <input type="tel" id="custPhone" placeholder="মোবাইল নম্বর">
-            <textarea id="custAddr" placeholder="ঠিকানা"></textarea>
-            <button class="btn" style="background:#25D366; color:#fff; width:100%; margin-top:10px;" onclick="handleOrder()">WhatsApp-এ অর্ডার দিন</button>
-        </div>
+    <h3 style="color:var(--gold); margin:0;">অর্ডার (কোড: <span id="targetID">0</span>)</h3>
+    <input type="text" id="custName" placeholder="আপনার নাম">
+    <input type="tel" id="custPhone" placeholder="মোবাইল নম্বর">
+    <textarea id="custAddr" placeholder="ঠিকানা"></textarea>
+    
+    <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="btn" style="background:#25D366; color:#fff; flex:1;" onclick="handleOrder('wa')">WhatsApp</button>
+        <button class="btn" style="background:#0084FF; color:#fff; flex:1;" onclick="handleOrder('ms')">Messenger</button>
+    </div>
+</div>
         <button onclick="closeDrawer()" style="background:none; border:none; color:#555; width:100%; margin-top:15px; cursor:pointer;">বন্ধ করুন</button>
     </div>
 
@@ -112,54 +116,112 @@
         function showOrder() { $('#detailsContent').hide(); $('#orderContent').show(); }
         function closeDrawer() { $('.drawer-overlay').fadeOut(200); $('#mainDrawer').removeClass('active'); }
         
-        function handleOrder() {
-            const id = $('#targetID').text(), n = $('#custName').val(), p = $('#custPhone').val(), a = $('#custAddr').val();
-            if(!n || !p || !a) return alert('সব তথ্য দিন');
-            window.open(`https://wa.me/8801309007585?text=${encodeURIComponent('অর্ডার: কোড '+id+', নাম: '+n+', ফোন: '+p+', ঠিকানা: '+a)}`);
-        }
+        function handleOrder(platform) {
+    const id = $('#targetID').text(), 
+          n = $('#custName').val(), 
+          p = $('#custPhone').val(), 
+          a = $('#custAddr').val();
+    
+    if(!n || !p || !a) return alert('সব তথ্য দিয়ে সহযোগিতা করুন');
+
+    // প্রোডাক্টের সরাসরি লিঙ্ক তৈরি (বড় স্ক্রিনে বা শেয়ার করার জন্য)
+    const productLink = `https://catalog.horitoki.com/?id=${id}`;
+
+    // লাইন-বাই-লাইন মেসেজ ফরম্যাট
+    const message = `🛍️ *নতুন অর্ডার (ক্যাটালগ)*\n` +
+                    `-----------------------\n` +
+                    `🔗 প্রোডাক্ট লিঙ্ক: ${productLink}\n` +
+                    `📦 প্রোডাক্ট কোড: ${id}\n` +
+                    `👤 নাম: ${n}\n` +
+                    `📞 ফোন: ${p}\n` +
+                    `📍 ঠিকানা: ${a}\n` +
+                    `-----------------------\n` +
+                    `অর্ডারটি কনফার্ম করতে চাই।`;
+
+    if(platform === 'wa') {
+        const waMsg = message.replace(/\n/g, '%0A');
+        window.open(`https://wa.me/8801309007585?text=${waMsg}`);
+    } else {
+        window.open(`https://m.me/horitokibd?text=${encodeURIComponent(message)}`);
+    }
+}
 
         // ৫. ডাইনামিক ইমেজ রেন্ডারিং (Lazy Ingestion)
         $(document).ready(function() {
-            let ids = Array.from({length: total}, (_, i) => i + 1);
-            // Shuffling
-            ids.sort(() => Math.random() - 0.5);
+    // ১. ইউআরএল থেকে আইডি চেক করা (যেমন: ?id=45)
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetId = parseInt(urlParams.get('id'));
 
-            let html = '';
-            ids.forEach((id, index) => {
-                html += `
-                <div class="swiper-slide">
-                    <div class="product-card">
-                        <span class="badge">কোড: ${id}</span>
-                        <img src="${repo}${id}.webp" loading="${index < 2 ? 'eager' : 'lazy'}" alt="হরিতকী শাড়ি কোড ${id} - Saree Price in BD 2026 - Online Shopping">
-                    </div>
-                    <div class="actions">
-                        <button class="btn btn-details" onclick="openDrawer(${id})">বিস্তারিত</button>
-                        <button class="btn btn-order" onclick="openDrawer(${id})">অর্ডার দিন</button>
-                    </div>
-                </div>`;
-            });
-            $('#mainWrapper').html(html);
+    let ids = Array.from({length: total}, (_, i) => i + 1);
+    
+    // ২. লজিক: যদি নির্দিষ্ট আইডি থাকে তবে সেটা আগে, নাহলে শাফেল
+    if (targetId && targetId > 0 && targetId <= total) {
+        // টার্গেট আইডি-কে লিস্ট থেকে সরিয়ে সবার সামনে নিয়ে আসা
+        ids = ids.filter(i => i !== targetId);
+        ids.unshift(targetId); 
+    } else {
+        // সাধারণ ভিজিটরদের জন্য র‍্যান্ডম শাফেল
+        ids.sort(() => Math.random() - 0.5);
+    }
 
-            // ৬. Swiper Initialization (সুপার ফাস্ট)
-            const swiper = new Swiper('.swiper', {
-                loop: true,
-                lazy: true, // Swiper এর নিজস্ব লেজি লোড
-                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-                on: {
-                    slideChange: function () {
-                        snd.currentTime = 0; snd.play().catch(()=>{});
-                        $('#pCount').text((this.realIndex + 1) + '/' + total);
-                    }
-                }
-            });
+    // ৩. ডাইনামিক প্রিলোড (সবার আগে ১ম ইমেজটি লোড করার কমান্ড)
+    const firstImageSrc = `${repo}${ids[0]}.webp`;
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = firstImageSrc;
+    preloadLink.fetchPriority = 'high'; // ব্রাউজারকে সবচেয়ে বেশি গুরুত্ব দিতে বলা
+    document.head.appendChild(preloadLink);
 
-            $('#loader').fadeOut(300);
+    // ৪. স্লাইডার কন্টেন্ট তৈরি করা
+    let html = '';
+    ids.forEach((id, index) => {
+        // ১ম ইমেজকে fetchpriority এবং eager দেওয়া যাতে ফাস্ট লোড হয়
+        const priority = index === 0 ? 'fetchpriority="high"' : '';
+        const loadingMode = index < 2 ? 'eager' : 'lazy';
 
-            // পিক্সেল লেট লোড (স্পিড বাড়ানোর জন্য)
-            setTimeout(() => {
-                if(window.fbq) fbq('track', 'PageView');
-            }, 2000);
-        });
+        html += `
+        <div class="swiper-slide">
+            <div class="product-card">
+                <span class="badge">কোড: ${id}</span>
+                <img src="${repo}${id}.webp" 
+                     alt="হরিতকী শাড়ি কোড ${id}" 
+                     ${priority} 
+                     loading="${loadingMode}"
+                     style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div class="actions">
+                <button class="btn btn-details" onclick="openDrawer(${id})">বিস্তারিত</button>
+                <button class="btn btn-order" onclick="openDrawer(${id})">অর্ডার দিন</button>
+            </div>
+        </div>`;
+    });
+    
+    $('#mainWrapper').html(html);
+
+    // ৫. Swiper স্লাইডার কনফিগারেশন
+    const swiper = new Swiper('.swiper', {
+        loop: true,
+        navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+        on: {
+            slideChange: function () {
+                // পেজ উল্টানোর শব্দ
+                snd.currentTime = 0; 
+                snd.play().catch(()=>{});
+                // পেজ নম্বর আপডেট
+                $('#pCount').text((this.realIndex + 1) + '/' + total);
+            }
+        }
+    });
+
+    // সব রেডি হলে লোডার সরিয়ে দেওয়া
+    $('#loader').fadeOut(300);
+
+    // ফেসবুক পিক্সেল ডিলে লোড (স্পিড বাড়ানোর জন্য)
+    setTimeout(() => {
+        if(window.fbq) fbq('track', 'PageView');
+    }, 2000);
+});
     </script>
 </body>
 </html>
