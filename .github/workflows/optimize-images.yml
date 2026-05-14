@@ -1,11 +1,12 @@
 name: Super Fast Image Optimizer
+
 on:
   push:
     branches:
       - main
     paths:
       - 'images/**.webp'
-  workflow_dispatch: # ম্যানুয়ালি রান করার অপশন
+  workflow_dispatch: # ম্যানুয়ালি রান করার অপশন
 
 permissions:
   contents: write
@@ -13,23 +14,31 @@ permissions:
 jobs:
   optimize:
     runs-on: ubuntu-latest
+    env:
+      # Node.js 20 deprecation warning ফিক্স করার জন্য
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true 
+
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install ImageMagick & Parallel
-        run: sudo apt-get install -y imagemagick parallel
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y imagemagick parallel
 
       - name: Parallel Smart Compress
         run: |
-          # images ফোল্ডারের সব .webp ফাইল খুঁজে বের করবে
-          # এরপর একসাথে অনেকগুলো ছবি (Parallel) প্রসেস করবে যাতে দ্রুত শেষ হয়
-          find images/ -name "*.webp" | parallel -j 4 '
+          # images/ ফোল্ডারের ভেতর সব .webp ফাইল খুঁজবে। 
+          # -print0 এবং parallel -0 ব্যবহার করা হয়েছে যাতে ফাইলের নামে স্পেস থাকলেও কাজ করে।
+          find images/ -name "*.webp" -print0 | parallel -0 -j 4 '
             size=$(du -k "{}" | cut -f1)
-            if [ $size -gt 150 ]; then
+            if [ "$size" -gt 150 ]; then
               echo "Optimizing {} ($size KB)..."
-              # ছবিটিকে ১২০০ পিক্সেল চওড়া করবে এবং ১৫০ কিলোবাইটের টার্গেটে আনবে
-              convert "{}" -resize 1200x -define webp:extent=150kb "{}"
+              # ইমেজ রিসাইজ, মেটাডেটা রিমুভ (-strip) এবং ১৫০ কিলোবাইট টার্গেট সেট করা
+              convert "{}" -resize 1200x -strip -define webp:extent=150kb "{}"
             else
               echo "Skipping {} ($size KB) - Already optimized."
             fi
@@ -39,3 +48,4 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "Auto-optimize images: Resized to 1200px & Compressed to ~150kb"
+          file_pattern: 'images/*.webp'
