@@ -3,130 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Horitoki Saree | হরিতকী শাড়ি - বাংলাদেশের সেরা অনলাইন শাড়ি কালেকশন ২০২৬</title>
+    <title>Horitoki Saree 2026 - Instant Load</title>
     
-    <!-- Speed Optimization: Preconnect to CDNs -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Preconnect for speed -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://unpkg.com">
-
-    <meta name="description" content="হরিতকী-র এক্সক্লুসিভ শাড়ি কালেকশন ২০২৬। প্রিমিয়াম সিল্ক শাড়ি! Saree price in BD 2026. অনলাইনে শাড়ি কিনুন হরিতকী থেকে। সারাদেশে ক্যাশ অন ডেলিভারি।">
-    <link rel="canonical" href="https://catalog.horitoki.com" />
-    <link rel="icon" type="image/webp" href="https://cdn.jsdelivr.net/gh/horitokidev/horitoki-catalogue@main/images/1.webp">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;600&display=swap');
-        :root { --gold: #d4af37; --bg: #000; --card: #121212; --green: #25D366; --text: #e0e0e0; }
+        :root { --gold: #d4af37; --bg: #000; }
+        body { background: var(--bg); margin: 0; font-family: 'Hind Siliguri', sans-serif; color: #eee; overflow: hidden; }
         
-        /* Performance Boost: Hardware Acceleration */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { 
-            background: var(--bg); margin: 0; font-family: 'Hind Siliguri', sans-serif; 
-            color: var(--text); overflow: hidden; touch-action: none; 
-            text-rendering: optimizeLegibility;
-        }
+        header { background: rgba(10, 10, 10, 0.95); padding: 10px; text-align: center; border-bottom: 1px solid #222; position: relative; z-index: 100; }
+        .main-title { color: var(--gold); font-size: 16px; margin: 0; text-transform: uppercase; }
 
-        header { 
-            background: rgba(18, 18, 18, 0.9); padding: 10px 0; border-bottom: 1px solid #222; 
-            text-align: center; position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px); 
-        }
-        .main-title { color: var(--gold); font-size: 1rem; margin: 0; font-weight: 600; text-transform: uppercase; }
-        .stats { font-size: 10px; color: #888; }
-
-        #viewport { width: 100vw; height: calc(100vh - 150px); display: flex; align-items: center; justify-content: center; position: relative; }
-        #flipbook { width: 100%; height: 100%; visibility: hidden; will-change: transform; }
+        #viewport { width: 100vw; height: calc(100vh - 120px); display: flex; align-items: center; justify-content: center; position: relative; }
+        #flipbook { width: 100%; height: 100%; visibility: hidden; }
 
         .product-card { 
-            width: 92%; height: 82%; background: #080808; border-radius: 8px; position: relative; 
-            border: 1px solid #222; overflow: hidden; display: flex; align-items: center; justify-content: center; 
-            transform: translateZ(0); /* GPU Acceleration */
+            width: 90%; height: 80%; background: #080808; border: 1px solid #222; 
+            margin: auto; border-radius: 8px; position: relative; overflow: hidden;
         }
-        .product-card img { width: 100%; height: 100%; object-fit: cover; cursor: zoom-in; display: block; }
+        .product-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
         
-        .badge { position: absolute; top: 12px; right: 12px; background: var(--gold); color: #000; padding: 2px 10px; border-radius: 4px; font-weight: bold; font-size: 11px; z-index: 10; }
-        
-        .nav-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; background: rgba(0,0,0,0.6); border: 1px solid var(--gold); border-radius: 50%; color: var(--gold); z-index: 2000; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .badge { position: absolute; top: 10px; right: 10px; background: var(--gold); color: #000; padding: 2px 8px; font-size: 11px; font-weight: bold; border-radius: 4px; z-index: 5; }
 
-        .actions { display: flex; gap: 8px; width: 92%; margin-top: 10px; }
-        .btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 13px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
-        .btn-details { background: #1a1a1a; color: #fff; border: 1px solid #333; }
-        .btn-order { background: var(--green); color: #fff; }
+        .actions { display: flex; gap: 8px; width: 90%; margin: 10px auto; }
+        .btn { flex: 1; padding: 12px; border-radius: 8px; font-weight: bold; border: none; cursor: pointer; font-size: 13px; }
+        .btn-order { background: #25D366; color: white; }
+        .btn-details { background: #222; color: white; border: 1px solid #333; }
 
-        /* Drawers */
-        .drawer { position: fixed; bottom: -100%; left: 0; width: 100%; background: var(--card); z-index: 4000; border-top: 2px solid var(--gold); border-radius: 20px 20px 0 0; padding: 20px; transition: transform 0.3s ease-out; }
-        .drawer.active { transform: translateY(-100%); bottom: 0; }
-        .drawer-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 3500; display: none; backdrop-filter: blur(4px); }
-        
-        .input-group input, .input-group textarea { width: 100%; padding: 12px; margin: 6px 0; background: #181818; border: 1px solid #333; color: #fff; border-radius: 8px; }
+        #loader { position: fixed; inset: 0; background: #000; z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .spinner { width: 30px; height: 30px; border: 3px solid #222; border-top-color: var(--gold); border-radius: 50%; animation: spin 0.6s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
         footer { position: fixed; bottom: 0; width: 100%; background: #0a0a0a; padding: 8px 0; border-top: 1px solid #222; }
-        .marquee { white-space: nowrap; animation: move 25s linear infinite; color: var(--gold); font-size: 12px; display: inline-block; }
-        @keyframes move { from { transform: translateX(100vw); } to { transform: translateX(-100%); } }
-
-        #loader { position: fixed; inset: 0; background: #000; z-index: 5000; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .spinner { width: 30px; height: 30px; border: 3px solid #111; border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
+        .marquee { white-space: nowrap; animation: move 20s linear infinite; color: var(--gold); font-size: 12px; display: inline-block; }
+        @keyframes move { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body>
 
-    <audio id="flipSound" src="https://cdn.jsdelivr.net/gh/horitokidev/horitoki-catalogue@main/sound.mp3" preload="auto"></audio>
-    
-    <div id="loader"><div class="spinner"></div><p style="color:var(--gold); font-size: 12px; margin-top: 10px;">কালেকশন লোড হচ্ছে...</p></div>
+    <div id="loader"><div class="spinner"></div></div>
 
     <header>
-        <h1 class="main-title">হরিতকী ঈদ ক্যাটালগ ২০২৬</h1>
-        <div class="stats">মোট শাড়ি সংখ্যা: <span id="pCount">১/৩১৬</span></div>
+        <h1 class="main-title">হরিতকী ঈদ কালেকশন ২০২৬</h1>
+        <div style="font-size: 10px; color: #666;">শাড়ি কোড: <span id="pCount">1/316</span></div>
     </header>
 
     <div id="viewport">
-        <div class="nav-btn" style="left: 8px;" onclick="nav('prev')"><i data-lucide="chevron-left"></i></div>
         <div id="flipbook"></div>
-        <div class="nav-btn" style="right: 8px;" onclick="nav('next')"><i data-lucide="chevron-right"></i></div>
     </div>
 
-    <div class="drawer-overlay" onclick="closeDrawer()"></div>
-    <div class="drawer" id="mainDrawer">
-        <div id="detailsContent" style="display:none;">
-            <h3 style="color:var(--gold); margin:0;">পণ্যের বিবরণ</h3>
-            <p style="color:#aaa; font-size: 14px; line-height: 1.6; margin: 12px 0;">ম্যাটেরিয়াল: প্রিমিয়াম গ্লোসি সিল্ক শাড়ি। <br>দৈর্ঘ্য: ১২ হাত, ১০০% কালার গ্যারান্টি। <br>মূল্য: <b>১৬৯০ টাকা</b></p>
-            <button class="btn btn-order" style="width:100%;" onclick="switchDrawer('order')">অর্ডার করতে এগিয়ে যান</button>
-        </div>
-        <div id="orderContent" style="display:none;">
-            <h3 style="color:var(--gold); margin:0;">অর্ডার দিন (কোড: <span id="targetID">0</span>)</h3>
-            <div class="input-group">
-                <input type="text" id="custName" placeholder="আপনার নাম">
-                <input type="tel" id="custPhone" placeholder="মোবাইল নম্বর">
-                <textarea id="custAddr" rows="2" placeholder="পূর্ণ ঠিকানা"></textarea>
-            </div>
-            <div style="display:flex; gap:10px; margin-top:10px;">
-                <button class="btn btn-order" style="background:#25D366" onclick="handleOrder('wa')">WhatsApp</button>
-                <button class="btn btn-order" style="background:#0084FF" onclick="handleOrder('ms')">Messenger</button>
-            </div>
-        </div>
-        <button onclick="closeDrawer()" style="background:none; border:none; color:#555; width:100%; margin-top:15px;">বন্ধ করুন</button>
-    </div>
+    <footer>
+        <div class="marquee">🚚 সারাদেশে ক্যাশ অন ডেলিভারি | যেকোনো শাড়ি মাত্র ১৬৯০ টাকা! সীমিত স্টক।</div>
+    </footer>
 
-    <footer><div class="marquee">🌙 হরিতকী অফার: যেকোনো প্রিমিয়াম শাড়ি মাত্র ১৬৯০ টাকা! সারাদেশে ক্যাশ অন ডেলিভারি সুবিধা 🌙</div></footer>
-
-    <!-- Optimized Script Loading -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/blasten/turn.js/turn.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script>
 
     <script>
-        const totalImages = 316; 
+        const totalImages = 316;
         const repoPath = "https://cdn.jsdelivr.net/gh/horitokidev/horitoki-catalogue@main/images/";
-        const waNum = "8801309007585";
-        const fbPage = "horitokibd"; 
-        const siteDomain = "https://catalog.horitoki.com"; 
+        let ids = Array.from({length: totalImages}, (_, i) => i + 1);
 
-        const fb = $('#flipbook'), snd = document.getElementById('flipSound');
-        let productIds = Array.from({length: totalImages}, (_, i) => i + 1);
-
-        // Shuffle optimized
+        // 1. Shuffle
         function shuffle(a) {
             for (let i = a.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
@@ -134,69 +75,59 @@
             }
             return a;
         }
-        shuffle(productIds);
+        shuffle(ids);
 
-        // Faster DOM Injection: Building string once
-        let pagesHtml = '';
-        productIds.forEach((id) => {
-            pagesHtml += `<div class="page">
-                <div class="product-card">
-                    <span class="badge">কোড: ${id}</span>
-                    <img src="${repoPath}${id}.webp" alt="Saree ${id}" class="zoomable" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='${repoPath}${id}.png'">
-                </div>
-                <div class="actions">
-                    <button class="btn btn-details" onclick="openDrawer('details', ${id})">বিস্তারিত</button>
-                    <button class="btn btn-order" onclick="openDrawer('order', ${id})">অর্ডার দিন</button>
-                </div>
-            </div>`;
+        // 2. High Priority Loading for first 20
+        const flipbook = $('#flipbook');
+        let html = '';
+
+        ids.forEach((id, index) => {
+            // প্রথম ২০টি ইমেজের জন্য স্পেশাল ট্রিটমেন্ট
+            const isPriority = index < 20;
+            const loadingAttr = isPriority ? 'eager' : 'lazy';
+            const priorityAttr = isPriority ? 'fetchpriority="high"' : '';
+            
+            html += `
+                <div class="page">
+                    <div class="product-card">
+                        <span class="badge">কোড: ${id}</span>
+                        <img src="${repoPath}${id}.webp" 
+                             ${priorityAttr} 
+                             loading="${loadingAttr}" 
+                             decoding="${isPriority ? 'sync' : 'async'}"
+                             onerror="this.src='${repoPath}${id}.png'">
+                    </div>
+                    <div class="actions">
+                        <button class="btn btn-details">বিস্তারিত</button>
+                        <button class="btn btn-order">অর্ডার দিন</button>
+                    </div>
+                </div>`;
         });
-        fb.html(pagesHtml);
 
-        function playSnd() { snd.currentTime = 0; snd.play().catch(()=>{}); }
-        function nav(d) { d === 'next' ? fb.turn('next') : fb.turn('previous'); }
+        flipbook.html(html);
 
-        function openDrawer(m, id) {
-            $('#targetID').text(id);
-            $('.drawer-overlay').show();
-            $('#mainDrawer').addClass('active');
-            switchDrawer(m);
-        }
-        function switchDrawer(m) {
-            m === 'details' ? ($('#detailsContent').show(), $('#orderContent').hide()) : ($('#detailsContent').hide(), $('#orderContent').show());
-        }
-        function closeDrawer() { $('.drawer-overlay').hide(); $('#mainDrawer').removeClass('active'); }
-
-        function handleOrder(platform) {
-            const id = $('#targetID').text(), n = $('#custName').val(), p = $('#custPhone').val(), a = $('#custAddr').val();
-            if(!n || !p || !a) return alert('তথ্য দিন');
-            const msg = encodeURIComponent(`কোড: ${id}\nনাম: ${n}\nফোন: ${p}\nঠিকানা: ${a}`);
-            platform === 'wa' ? window.open(`https://wa.me/${waNum}?text=${msg}`) : window.open(`https://m.me/${fbPage}?text=${msg}`);
-        }
-
-        $(document).ready(function() {
-            lucide.createIcons();
+        // 3. Initialize Turn.js
+        $(window).on('load', function() {
             const w = $(window).width();
-            fb.turn({
-                width: w > 500 ? 400 : w * 0.96,
-                height: $(window).height() - 150,
+            flipbook.turn({
+                width: w > 500 ? 400 : w * 0.95,
+                height: $(window).height() - 130,
                 display: 'single',
-                duration: 600,
-                when: { 
-                    turning: playSnd,
-                    turned: (e, p) => $('#pCount').text(`${p}/${totalImages}`)
+                acceleration: true,
+                duration: 500,
+                when: {
+                    turned: function(e, page) {
+                        $('#pCount').text(page + '/' + totalImages);
+                    }
                 }
             });
-            mediumZoom('.zoomable', { background: '#000', margin: 5 });
-            $('#loader').fadeOut(300);
-            fb.css('visibility', 'visible');
-            
-            // Direct link handling
-            const pId = new URLSearchParams(window.location.search).get('p');
-            if (pId) {
-                const targetPage = productIds.indexOf(parseInt(pId)) + 1;
-                if (targetPage > 0) setTimeout(() => fb.turn('page', targetPage), 500);
-            }
+
+            $('#loader').fadeOut(200);
+            flipbook.css('visibility', 'visible');
         });
+
+        // Touch prevent for smooth scroll
+        document.addEventListener('touchmove', function(e) { e.preventDefault(); }, { passive: false });
     </script>
 </body>
 </html>
